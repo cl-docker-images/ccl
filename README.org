@@ -1,0 +1,25 @@
+#+TITLE: CCL Docker Images
+#+AUTHOR: Eric Timmons
+
+This repo contains Dockerfiles for Clozure Common Lisp (CCL) on a variety of
+base images.
+
+The CCL versions built are:
+
++ 1.11.5
+
+The OSes and versions CCL is built on are:
+
++ debian
+  + stretch
++ ubuntu
+  + cosmic
+  + bionic
+
+* Building
+
+  To build all images, just run:
+
+  #+begin_src shell
+    make
+  #+end_src
