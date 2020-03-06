@@ -1,0 +1,11 @@
+image: daewok/ccl:$CCL_VERSION-ubuntu-bionic
+manifests:
+  - image: $UBUNTU_BIONIC_AMD64_NONBUILD_DIGEST
+    platform:
+      architecture: amd64
+      os: linux
+  - image: $UBUNTU_BIONIC_ARM32V7_NONBUILD_DIGEST
+    platform:
+      architecture: arm
+      variant: v7
+      os: linux
