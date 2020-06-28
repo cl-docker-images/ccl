@@ -26,4 +26,8 @@ RUN set -x \
 
 WORKDIR /
 
+COPY docker-entrypoint /usr/local/bin/docker-entrypoint
+
+ENTRYPOINT ["docker-entrypoint"]
+
 CMD ["ccl"]
