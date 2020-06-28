@@ -3,10 +3,12 @@
 
 * Supported Tags
 
-  + =1.11.5-debian-buster=, =1.11.5-debian=, =debian-buster=, =debian=
-  + =1.11.5-debian-stretch=, =debian-stretch=
-  + =1.11.5-ubuntu-eoan=, =1.11.5-ubuntu=, =ubuntu-eoan=, =ubuntu=
-  + =1.11.5-ubuntu-bionic=, =ubuntu-bionic=
+  + =1.12-debian-buster=, =1.12-debian=, =debian-buster=, =debian=, =1.12=, =latest=
+  + =1.12-debian-stretch=, =debian-stretch=
+  + =1.12-ubuntu-eoan=, =1.12-ubuntu=, =ubuntu-eoan=, =ubuntu=
+  + =1.12-ubuntu-bionic=, =ubuntu-bionic=
+  + =1.12-windowsservercore-1909=, =1.12-windowsservercore=, =windowsservercore-1909=, =windowsservercore=, =1.12=, =latest=
+  + =1.12-windowsservercore-ltsc2019=, =windowsservercore-ltsc2019=
 
 * Quick Reference
 
