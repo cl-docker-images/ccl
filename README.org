@@ -16,7 +16,7 @@
   + Where to file Docker image related issues :: [[https://github.com/daewok/docker-ccl/][https://github.com/daewok/docker-ccl/]]
   + Where to file issues for CCL itself :: [[https://github.com/Clozure/ccl/issues][https://github.com/Clozure/ccl/issues]]
   + Maintained by :: [[https://github.com/daewok/docker-ccl/][Eric Timmons]] (i.e., this is not an official CCL image)
-  + Supported architectures :: =linux/arm64=, =linux/arm/v7=
+  + Supported architectures :: =linux/amd64=, =linux/arm/v7=, =windows/amd64=
 
 * What is CCL?
 
