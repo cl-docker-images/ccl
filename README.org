@@ -3,12 +3,25 @@
 
 * Supported Tags
 
-  + =1.12-debian-buster=, =1.12-debian=, =debian-buster=, =debian=, =1.12=, =latest=
-  + =1.12-debian-stretch=, =debian-stretch=
-  + =1.12-ubuntu-focal=, =1.12-ubuntu=, =ubuntu-focal=, =ubuntu=
-  + =1.12-ubuntu-bionic=, =ubuntu-bionic=
-  + =1.12-windowsservercore-1909=, =1.12-windowsservercore=, =windowsservercore-1909=, =windowsservercore=, =1.12=, =latest=
-  + =1.12-windowsservercore-ltsc2019=, =windowsservercore-ltsc2019=
+** Simple Tags
+
+   + =1.12-debian-buster=, =1.12-debian=, =debian-buster=, =debian=
+   + =1.12-debian-stretch=, =debian-stretch=
+   + =1.12-ubuntu-focal=, =1.12-ubuntu=, =ubuntu-focal=, =ubuntu=
+   + =1.12-ubuntu-bionic=, =ubuntu-bionic=
+   + =1.12-windowsservercore-1909=, =1.12-windowsservercore=, =windowsservercore-1909=, =windowsservercore=
+   + =1.12-windowsservercore-ltsc2019=, =windowsservercore-ltsc2019=
+
+** Shared Tags
+
+   + =1.12= ::
+     + =1.12-debian-buster=
+     + =1.12-windowsservercore-1909=
+     + =1.12-windowsservercore-ltsc2019=
+   + =latest= ::
+     + =1.12-debian-buster=
+     + =1.12-windowsservercore-1909=
+     + =1.12-windowsservercore-ltsc2019=
 
 * Quick Reference
 
