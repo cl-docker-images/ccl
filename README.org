@@ -32,6 +32,7 @@
   + Maintained by :: [[https://github.com/daewok/docker-ccl/][Eric Timmons]] (i.e., this is not an official CCL image)
   + Maintained by :: [[https://github.com/daewok][Eric Timmons]] and the [[https://mers.csail.mit.edu/][MIT MERS Group]] (i.e., this is not an official SBCL image)
   + Supported architectures :: =linux/amd64=, =linux/arm/v7=, =windows/amd64=
+  + Previously known as :: =daewok/ccl=
 
 * What is CCL?
 
