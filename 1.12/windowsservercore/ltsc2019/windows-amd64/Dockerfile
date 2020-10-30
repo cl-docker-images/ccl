@@ -12,7 +12,7 @@ RUN $srcurl = ('https://github.com/Clozure/ccl/releases/download/v{0}/ccl-{0}-wi
     Invoke-WebRequest -Uri $srcurl -OutFile ccl.zip -UserAgent "NativeHost"; `
     Write-Host 'Done downloading'; `
     $expectedsha256 = 'F1BA6CFF353F6E6E13828F41DC92A723C01766AE38DCFF774905C9E02D59ED04'; `
-    $actualsha256 = (Get-FileHash ccl-zip -Algorithm sha256).Hash; `
+    $actualsha256 = (Get-FileHash ccl.zip -Algorithm sha256).Hash; `
     Write-Host ('Verifying sha256 {0} (expected: {1})' -f $actualsha256, $expectedsha256); `
     if ($actualsha256 -ne $expectedsha256) { `
         Write-Host 'SHA256 check FAILED!'; `
@@ -28,6 +28,6 @@ RUN $machineKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\Co
     $machinePath = $machineKey.GetValue('PATH', [string]::Empty, 'DoNotExpandEnvironmentNames').ToString(); `
     $newPath = ('C:\Program Files\ccl;{0}' -f $machinePath) `
     $machineKey.SetValue('PATH', $newPath, 'ExpandString'); `
-    $machineKey.Close(); `
+    $machineKey.Close();
 
 CMD ["ccl"]
