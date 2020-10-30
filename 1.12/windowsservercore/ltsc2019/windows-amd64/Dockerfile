@@ -24,7 +24,10 @@ RUN $srcurl = ('https://github.com/Clozure/ccl/releases/download/v{0}/ccl-{0}-wi
     Add-Content -Path 'C:\Program Files\ccl\ccl.cmd' '\"C:\Program Files\ccl\wx86cl64.exe\"'; `
     type 'C:\Program Files\ccl\ccl.cmd'
 
-RUN $newpath = ('C:\Program Files\ccl;{0}' -f $env:PATH); `
-    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $newpath
+RUN $machineKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\ControlSet001\Control\Session Manager\Environment\'); `
+    $machinePath = $machineKey.GetValue('PATH', [string]::Empty, 'DoNotExpandEnvironmentNames').ToString(); `
+    $newPath = ('C:\Program Files\ccl;{0}' -f $machinePath)
+    $machineKey.SetValue('PATH', $newPath, 'ExpandString'); `
+    $machineKey.Close(); `
 
 CMD ["ccl"]
