@@ -26,7 +26,7 @@ RUN $srcurl = ('https://github.com/Clozure/ccl/releases/download/v{0}/ccl-{0}-wi
 
 RUN $machineKey = [Microsoft.Win32.Registry]::LocalMachine.OpenSubKey('SYSTEM\ControlSet001\Control\Session Manager\Environment\'); `
     $machinePath = $machineKey.GetValue('PATH', [string]::Empty, 'DoNotExpandEnvironmentNames').ToString(); `
-    $newPath = ('C:\Program Files\ccl;{0}' -f $machinePath) `
+    $newPath = ('C:\Program Files\ccl;{0}' -f $machinePath); `
     $machineKey.SetValue('PATH', $newPath, 'ExpandString'); `
     $machineKey.Close();
 
