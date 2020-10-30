@@ -1,0 +1,118 @@
+os: linux
+dist: focal
+language: shell
+
+
+env:
+  global:
+    BUILD_SCRIPT: cl-docker-images-build/cl-docker-images-build
+    DOCKER_BUILDKIT: "1"
+    DOCKER_CLI_EXPERIMENTAL: "enabled"
+
+stages:
+  - name: build
+  - name: deploy
+    if: branch = master
+
+services:
+  - docker
+
+before_install:
+  - echo '{"experimental":true}' | sudo tee /etc/docker/daemon.json
+  - sudo service docker restart
+  - docker info
+  - |
+    # Log in earlier, to hopefully avoid running into Docker Hub's new pull
+    # limits.
+    if [ -n "$DOCKER_PASSWORD" ]; then
+      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    fi
+  - |
+    if [ "$TRAVIS_BRANCH" = "master" ]; then
+      BUILD_TAG_SUFFIX="-tmp-master"
+    else
+      BUILD_TAG_SUFFIX="-tmp"
+    fi
+    export BUILD_TAG_SUFFIX
+
+_nonnightly: &nonnightly
+  if: (NOT (type = cron) AND NOT (branch =~ ^nightly-.*$))
+
+_nightly: &nightly
+  allow_failures:
+    if: NOT (type = cron)
+
+_build_job: &build_job
+  stage: build
+  script:
+    # Pull the previous images
+    - $BUILD_SCRIPT pull
+    # Build the image
+    - $BUILD_SCRIPT build
+  after_success: |
+    if [ -n "$DOCKER_PASSWORD" ]; then
+      $BUILD_SCRIPT push_build_image
+    fi
+
+jobs:
+  include:
+    # Regular images
+    # Debian Buster
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: debian
+        OS_VERSION: "buster"
+      <<: [*build_job, *nonnightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: debian
+        OS_VERSION: "buster"
+      <<: [*build_job, *nonnightly]
+    # Debian Stretch
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: debian
+        OS_VERSION: "stretch"
+      <<: [*build_job, *nonnightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: debian
+        OS_VERSION: "stretch"
+      <<: [*build_job, *nonnightly]
+    # Ubuntu Focal
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: ubuntu
+        OS_VERSION: "focal"
+      <<: [*build_job, *nonnightly]
+    - arch: arm64
+      install:
+        - unset DOCKER_BUILDKIT
+        - sudo apt-get remove -y docker docker.io containerd runc
+        - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        - sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        - sudo apt-get update
+        - sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      env:
+        ARCH: arm32v7
+        OS_NAME: ubuntu
+        OS_VERSION: "focal"
+      <<: [*build_job, *nonnightly]
+    # Ubuntu Bionic
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: ubuntu
+        OS_VERSION: "bionic"
+      <<: [*build_job, *nonnightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: ubuntu
+        OS_VERSION: "bionic"
+      <<: [*build_job, *nonnightly]
