@@ -36,7 +36,7 @@ before_install:
     export BUILD_TAG_SUFFIX
 
 _nonnightly: &nonnightly
-  if: (NOT (type = cron) AND NOT (branch =~ ^nightly-.*$))
+  if: ((NOT (type = cron) OR env(BASE_IMAGE_UPDATE) = yes) AND NOT (branch =~ ^nightly-.*$))
 
 _nightly: &nightly
   allow_failures:
