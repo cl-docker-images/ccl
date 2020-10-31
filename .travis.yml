@@ -207,3 +207,16 @@ jobs:
         - $BUILD_SCRIPT release_linux_manifests
         # Last, release shared manifests
         - $BUILD_SCRIPT release_shared_manifests
+    # Deploy nightly
+    - arch: amd64
+      stage: deploy
+      if: ((type = cron) AND env(BASE_IMAGE_UPDATE) = yes)
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        # First, download all the nightly builds, retag them, and push them to
+        # the arch specific repos
+        - $BUILD_SCRIPT pull_retag_and_push_linux_arch_images
+        # Next, create and push all the linux manifests
+        - $BUILD_SCRIPT release_linux_manifests
+        # Last, release shared manifests
+        - $BUILD_SCRIPT release_shared_manifests
