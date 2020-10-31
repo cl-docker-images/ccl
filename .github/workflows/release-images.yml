@@ -7,8 +7,11 @@ on:
         description: "The namespace into which the images are released"
         required: true
         default: daewok
+      debug:
+        description: "Debug?"
 
 env:
+  DEBUG: ${{ github.event.inputs.debug }}
   DOCKER_CLI_EXPERIMENTAL: "enabled"
   IMAGE_NAME: ccl
   IMAGE_BUILD_NAMESPACE: daewok
