@@ -41,6 +41,14 @@ _nonnightly: &nonnightly
 _nightly: &nightly
   allow_failures:
     if: NOT (type = cron)
+  before_script:
+    - mkdir tmp
+    - cd tmp
+    - git clone https://github.com/Clozure/ccl.git
+    - cd ccl
+    - export EXTRA_BUILDARGS="--build-arg ref=$(git rev-parse HEAD)"
+    - cd ../..
+    - rm -rf tmp
 
 _build_job: &build_job
   stage: build
@@ -116,3 +124,86 @@ jobs:
         OS_NAME: ubuntu
         OS_VERSION: "bionic"
       <<: [*build_job, *nonnightly]
+    # Nightly images
+    # Debian Buster
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: debian
+        OS_VERSION: "buster"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: debian
+        OS_VERSION: "buster"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    # Debian Stretch
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: debian
+        OS_VERSION: "stretch"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: debian
+        OS_VERSION: "stretch"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    # Ubuntu Focal
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: ubuntu
+        OS_VERSION: "focal"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    - arch: arm64
+      install:
+        - unset DOCKER_BUILDKIT
+        - sudo apt-get remove -y docker docker.io containerd runc
+        - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        - sudo add-apt-repository "deb [arch=arm64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        - sudo apt-get update
+        - sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+      env:
+        ARCH: arm32v7
+        OS_NAME: ubuntu
+        OS_VERSION: "focal"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    # Ubuntu Bionic
+    - arch: amd64
+      env:
+        ARCH: amd64
+        OS_NAME: ubuntu
+        OS_VERSION: "bionic"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    - arch: arm64
+      env:
+        ARCH: arm32v7
+        OS_NAME: ubuntu
+        OS_VERSION: "bionic"
+        VERSION: nightly
+      <<: [*build_job, *nightly]
+    # Deploy nightly
+    - arch: amd64
+      stage: deploy
+      env:
+        INCLUDE_WINDOWS_IN_MANIFEST: "no"
+        VERSION: nightly
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        # First, download all the nightly builds, retag them, and push them to
+        # the arch specific repos
+        - $BUILD_SCRIPT pull_retag_and_push_linux_arch_images
+        # Next, create and push all the linux manifests
+        - $BUILD_SCRIPT release_linux_manifests
+        # Last, release shared manifests
+        - $BUILD_SCRIPT release_shared_manifests
