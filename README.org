@@ -49,3 +49,13 @@ See [[file:hub-description.org]] for a more detailed description of the images.
   on in parallel will stomp on each other's caches. However, for now, that
   seems like an acceptable tradeoff when compared to coming up with a more
   robust tagging scheme.
+
+** Rebuilding for new base images
+
+   CCL does not release on a regular cadence. As such, it is desirable to
+   occasionally rebuild and re-release images to account for the base image
+   being updated. Currently, this rebuild happens monthly and only for the
+   Linux images. Due to Travis CI not allowing cron jobs to have extra
+   configuration, the only way to distinguish between nightly builds and
+   rebuilds is by branch name. The stable branch should generally track master
+   and is the branch which rebuilds happen on.

@@ -12,7 +12,6 @@ env:
 stages:
   - name: build
   - name: deploy
-    if: branch = master
 
 services:
   - docker
@@ -195,6 +194,7 @@ jobs:
     # Deploy nightly
     - arch: amd64
       stage: deploy
+      if: ((type = cron) AND branch = master)
       env:
         INCLUDE_WINDOWS_IN_MANIFEST: "no"
         VERSION: nightly
@@ -207,10 +207,10 @@ jobs:
         - $BUILD_SCRIPT release_linux_manifests
         # Last, release shared manifests
         - $BUILD_SCRIPT release_shared_manifests
-    # Deploy nightly
+    # Deploy rebuilds
     - arch: amd64
       stage: deploy
-      if: ((type = cron) AND env(BASE_IMAGE_UPDATE) = yes)
+      if: ((type = cron) AND branch = stable)
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         # First, download all the nightly builds, retag them, and push them to
