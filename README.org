@@ -1,61 +1,61 @@
 #+TITLE: CCL Docker Images
+#+AUTHOR: Eric Timmons
 
-This project contains Dockerfiles for a variety of stock CCL images as well as
-CI infrastructure to automatically build and push them.
+* Supported Tags
 
-See [[file:hub-description.org]] for a more detailed description of the images.
+** Simple Tags
 
-* Image Repos
+   + =1.12-buster=, =buster=
+   + =1.12-stretch=, =stretch=
+   + =1.12-windowsservercore-1809=, =windowsservercore-1809=
+   + =1.12-windowsservercore-ltsc2016=, =windowsservercore-ltsc2016=
 
-  The end goal is to get these images accepted into Docker's official image
-  program. This drives the current layout of the repo as the official images
-  program does not allow images to be customized via build args.
+** Shared Tags
 
-  Again, similar to the official images program, images are pushed to an arch
-  specific organization and then pushed to a common organization using Docker
-  manifests.
+   + =1.12=, =latest= ::
+     + =1.12-buster=
+     + =1.12-windowsservercore-1809=
+     + =1.12-windowsservercore-ltsc2016=
+   + =1.12-windowsservercore=, =windowsservercore= ::
+     + =1.12-windowsservercore-1809=
+     + =1.12-windowsservercore-ltsc2016=
 
-* CI
+* Quick Reference
 
-  We use a mixture of Travis CI and GitHub Actions to build the images. Travis
-  is responsible for building all Linux based images and GitHub Actions builds
-  the Windows based images. The reason for this split is primarily because
-  Travis provides hosted Arm instances, whereas GitHub currently does not.
+  + CCL Home Page :: [[https://ccl.clozure.com/][https://ccl.clozure.com/]]
+  + Where to file Docker image related issues :: [[https://gitlab.common-lisp.net/cl-docker-images/ccl]]
+  + Where to file issues for CCL itself :: [[https://github.com/Clozure/ccl/issues][https://github.com/Clozure/ccl/issues]]
+  + Maintained by :: [[https://github.com/daewok/docker-ccl/][Eric Timmons]] (i.e., this is not an official CCL image)
+  + Maintained by :: [[https://github.com/daewok][Eric Timmons]] and the [[https://mers.csail.mit.edu/][MIT MERS Group]] (i.e., this is not an official CCL image)
+  + Supported architectures :: =linux/amd64=, =linux/arm/v7=, =windows/amd64=
 
-  Building the images can take a *long* time and can occasionally fail due to
-  transient conditions outside our control. Given that there are a large number
-  of images, we want to cache images between builds so we can reuse as much
-  work as possible. Additionally, we don't want to waste time rebuilding images
-  that have already been released if the goal is to test changes to the nightly
-  images. Therefore, the CI jobs follow the following rules:
+* What is CCL?
 
-  For jobs run on master, all images are built and pushed to the arch specific
-  repos with tags ending in =-tmp-master=. Nightly images are then retagged
-  without the suffix and pushed to the common org using manifests. When a
-  manual release job is triggered, all non-nightly images are retagged without
-  the suffix and pushed to the common org using manifests.
+  From [[https://ccl.clozure.com][CCL's Home Page]]:
 
-  For jobs run on a branch starting with =nightly-= only the nightly images are
-  built and are pushed (if possible) to the arch specific repos with the tag
-  suffix =-tmp=. These tags are used as potential cache sources when building
-  on any branch (including master).
+  #+begin_quote
+  Clozure CL (often called CCL for short) is a free Common Lisp implementation
+  with a long history. Some distinguishing features of the implementation
+  include fast compilation speed, native threads, a precise, generational,
+  compacting garbage collector, and a convenient foreign-function interface.
+  #+end_quote
 
-  For jobs run on any other branch, all images are built and pushed (if
-  possible) to the arch specific repos with the tag suffix =-tmp=. These tags
-  are used as potential cache sources when building on any branch (including
-  master).
+* What's in the image?
 
-  This tagging scheme means that multiple non-master branches being developed
-  on in parallel will stomp on each other's caches. However, for now, that
-  seems like an acceptable tradeoff when compared to coming up with a more
-  robust tagging scheme.
+  This image contains CCL binaries built from the latest binary releases from
+  the CCL devs for a variety of OSes and architectures.
 
-** Rebuilding for new base images
+* License
 
-   CCL does not release on a regular cadence. As such, it is desirable to
-   occasionally rebuild and re-release images to account for the base image
-   being updated. Currently, this rebuild happens monthly and only for the
-   Linux images. Due to Travis CI not allowing cron jobs to have extra
-   configuration, the only way to distinguish between nightly builds and
-   rebuilds is by branch name. The stable branch should generally track master
-   and is the branch which rebuilds happen on.
+  CCL is licensed under the [[https://www.apache.org/licenses/LICENSE-2.0][Apache v2.0]].
+
+  The Dockerfiles used to build the images are licensed under BSD-2-Clause.
+
+  As with all Docker images, these likely also contain other software which may
+  be under other licenses (such as Bash, etc from the base distribution, along
+  with any direct or indirect dependencies of the primary software being
+  contained).
+
+  As for any pre-built image usage, it is the image user's responsibility to
+  ensure that any use of this image complies with any relevant licenses for all
+  software contained within.
