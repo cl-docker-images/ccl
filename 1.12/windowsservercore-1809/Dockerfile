@@ -8,6 +8,7 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 ENV CCL_VERSION=1.12
 
 RUN $srcurl = ('https://github.com/Clozure/ccl/releases/download/v{0}/ccl-{0}-windowsx86.zip' -f $env:CCL_VERSION); `
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
     Write-Host ('Downloading {0}' -f $srcurl); `
     Invoke-WebRequest -Uri $srcurl -OutFile ccl.zip -UserAgent "NativeHost"; `
     Write-Host 'Done downloading'; `
