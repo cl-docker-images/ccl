@@ -21,11 +21,11 @@ arm32v7-Directory: 1.12/stretch/arm32v7
 Tags: 1.12-windowsservercore-1809, windowsservercore-1809
 SharedTags: 1.12, latest, windowsservercore, 1.12-windowsservercore
 Architectures: windows-amd64
-Directory: 1.12/windowsservercore/1809
+Directory: 1.12/windowsservercore-1809
 
 # Windows LTSC2016
 
 Tags: 1.12-windowsservercore-ltsc2016, windowsservercore-ltsc2016
 SharedTags: 1.12, latest, windowsservercore, 1.12-windowsservercore
 Architectures: windows-amd64
-Directory: 1.12/windowsservercore/ltsc2016
+Directory: 1.12/windowsservercore-ltsc2016
