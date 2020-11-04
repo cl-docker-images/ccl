@@ -6,26 +6,26 @@ GitRepo: https://gitlab.common-lisp.net/cl-docker-images/ccl.git
 Tags: 1.12-buster, buster
 SharedTags: 1.12, latest
 Architectures: amd64, arm32v7
-amd64-Directory: images/buster/amd64
-arm32v7-Directory: images/buster/arm32v7
+amd64-Directory: 1.12/buster/amd64
+arm32v7-Directory: 1.12/buster/arm32v7
 
 # Debian Stretch
 
 Tags: 1.12-stretch, stretch
 Architectures: amd64, arm32v7
-amd64-Directory: images/stretch/amd64
-arm32v7-Directory: images/stretch/arm32v7
+amd64-Directory: 1.12/stretch/amd64
+arm32v7-Directory: 1.12/stretch/arm32v7
 
 # Windows 1809
 
 Tags: 1.12-windowsservercore-1809, windowsservercore-1809
 SharedTags: 1.12, latest, windowsservercore, 1.12-windowsservercore
 Architectures: windows-amd64
-Directory: images/windowsservercore/1809
+Directory: 1.12/windowsservercore/1809
 
 # Windows LTSC2016
 
 Tags: 1.12-windowsservercore-ltsc2016, windowsservercore-ltsc2016
 SharedTags: 1.12, latest, windowsservercore, 1.12-windowsservercore
 Architectures: windows-amd64
-Directory: images/windowsservercore/ltsc2016
+Directory: 1.12/windowsservercore/ltsc2016
