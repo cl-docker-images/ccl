@@ -1,40 +1,40 @@
-- [Supported Tags](#org84c1ce9)
-  - [Simple Tags](#orgbe67b7a)
-  - [Shared Tags](#orgf93f946)
-- [Quick Reference](#org8ba9656)
-- [What is CCL?](#org4c4f99a)
-- [How to use this image](#orgc28e470)
-  - [Create a `Dockerfile` in your CCL project](#org1cd01d7)
-  - [Run a single Common Lisp script](#org408fbfb)
-  - [Developing using SLIME](#org89042b6)
-- [Image variants](#orga8c2629)
-  - [`%%IMAGE%%:<version>`](#orga222644)
-  - [`%%IMAGE%%:<version>-slim`](#org936d2d3)
-  - [`%%IMAGE%%:<version>-windowsservercore`](#orgd3e09ae)
-- [License](#org1fcd298)
+- [Supported Tags](#orgf45bba5)
+  - [Simple Tags](#orgf0fb1c8)
+  - [Shared Tags](#org54d798e)
+- [Quick Reference](#orga819315)
+- [What is CCL?](#orga898026)
+- [How to use this image](#orgabd4965)
+  - [Create a `Dockerfile` in your CCL project](#orgc77f8f0)
+  - [Run a single Common Lisp script](#orgf48098c)
+  - [Developing using SLIME](#org992c70c)
+- [Image variants](#orgcdf6947)
+  - [`%%IMAGE%%:<version>`](#org022d38b)
+  - [`%%IMAGE%%:<version>-slim`](#org2e039a8)
+  - [`%%IMAGE%%:<version>-windowsservercore`](#org2add4d8)
+- [License](#orge03b2ba)
 
 
 
-<a id="org84c1ce9"></a>
+<a id="orgf45bba5"></a>
 
 # Supported Tags
 
 
-<a id="orgbe67b7a"></a>
+<a id="orgf0fb1c8"></a>
 
 ## Simple Tags
 
 INSERT-SIMPLE-TAGS
 
 
-<a id="orgf93f946"></a>
+<a id="org54d798e"></a>
 
 ## Shared Tags
 
 INSERT-SHARED-TAGS
 
 
-<a id="org8ba9656"></a>
+<a id="orga819315"></a>
 
 # Quick Reference
 
@@ -45,7 +45,7 @@ INSERT-SHARED-TAGS
 -   **Supported architectures:** `linux/amd64`, `linux/arm/v7`, `windows/amd64`
 
 
-<a id="org4c4f99a"></a>
+<a id="orga898026"></a>
 
 # What is CCL?
 
@@ -54,12 +54,12 @@ From [CCL's Home Page](https://ccl.clozure.com):
 > Clozure CL (often called CCL for short) is a free Common Lisp implementation with a long history. Some distinguishing features of the implementation include fast compilation speed, native threads, a precise, generational, compacting garbage collector, and a convenient foreign-function interface.
 
 
-<a id="orgc28e470"></a>
+<a id="orgabd4965"></a>
 
 # How to use this image
 
 
-<a id="org1cd01d7"></a>
+<a id="orgc77f8f0"></a>
 
 ## Create a `Dockerfile` in your CCL project
 
@@ -78,7 +78,7 @@ $ docker run -it --rm --name my-running-app my-ccl-app
 ```
 
 
-<a id="org408fbfb"></a>
+<a id="orgf48098c"></a>
 
 ## Run a single Common Lisp script
 
@@ -89,7 +89,7 @@ $ docker run -it --rm --name my-running-script -v "$PWD":/usr/src/app -w /usr/sr
 ```
 
 
-<a id="org89042b6"></a>
+<a id="org992c70c"></a>
 
 ## Developing using SLIME
 
@@ -106,14 +106,14 @@ M-x slime-connect RET RET RET
 ```
 
 
-<a id="orga8c2629"></a>
+<a id="orgcdf6947"></a>
 
 # Image variants
 
 This image comes in several variants, each designed for a specific use case.
 
 
-<a id="orga222644"></a>
+<a id="org022d38b"></a>
 
 ## `%%IMAGE%%:<version>`
 
@@ -123,17 +123,21 @@ Some of these tags may have names like buster or stretch in them. These are the 
 
 These images are built off the buildpack-deps image. It, by design, has a large number of extremely common Debian packages.
 
-These images contain the Quicklisp installer, located at `/usr/local/share/common-lisp/source/quicklisp/quicklisp.lisp`.
+These images contain the Quicklisp installer, located at `/usr/local/share/common-lisp/source/quicklisp/quicklisp.lisp`. Additionally, there is a script at `/usr/local/bin/install-quicklisp` that will use the bundled installer to install Quicklisp. You can configure the Quicklisp install with the following environment variables:
+
+-   **`QUICKLISP_DIST_VERSION`:** The dist version to use. Of the form yyyy-mm-dd. `latest` means to install the latest version (the default).
+-   **`QUICKLISP_CLIENT_VERSION`:** The client version to use. Of the form yyyy-mm-dd. `latest` means to install the latest version (the default).
+-   **`QUICKLISP_ADD_TO_INIT_FILE`:** If set to `true`, `(ql:add-to-init-file)` is used to add code to the implementation's user init file to load Quicklisp on startup. Not set by default.
 
 
-<a id="org936d2d3"></a>
+<a id="org2e039a8"></a>
 
 ## `%%IMAGE%%:<version>-slim`
 
 This image does not contain the common packages contained in the default tag and only contains the minimal packages needed to run CCL. Unless you are working in an environment where only this image will be deployed and you have space constraints, we highly recommend using the default image of this repository.
 
 
-<a id="orgd3e09ae"></a>
+<a id="org2add4d8"></a>
 
 ## `%%IMAGE%%:<version>-windowsservercore`
 
@@ -145,7 +149,7 @@ For information about how to get Docker running on Windows, please see the relev
 -   [Windows 10 Quick Start](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_10)
 
 
-<a id="org1fcd298"></a>
+<a id="orge03b2ba"></a>
 
 # License
 
