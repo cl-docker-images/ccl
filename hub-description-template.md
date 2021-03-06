@@ -1,40 +1,40 @@
-- [Supported Tags](#orgf45bba5)
-  - [Simple Tags](#orgf0fb1c8)
-  - [Shared Tags](#org54d798e)
-- [Quick Reference](#orga819315)
-- [What is CCL?](#orga898026)
-- [How to use this image](#orgabd4965)
-  - [Create a `Dockerfile` in your CCL project](#orgc77f8f0)
-  - [Run a single Common Lisp script](#orgf48098c)
-  - [Developing using SLIME](#org992c70c)
-- [Image variants](#orgcdf6947)
-  - [`%%IMAGE%%:<version>`](#org022d38b)
-  - [`%%IMAGE%%:<version>-slim`](#org2e039a8)
-  - [`%%IMAGE%%:<version>-windowsservercore`](#org2add4d8)
-- [License](#orge03b2ba)
+- [Supported Tags](#orgf5d947f)
+  - [Simple Tags](#org11d888f)
+  - [Shared Tags](#org61eddd3)
+- [Quick Reference](#orgf896293)
+- [What is CCL?](#org05de8b2)
+- [How to use this image](#orga017377)
+  - [Create a `Dockerfile` in your CCL project](#org465d760)
+  - [Run a single Common Lisp script](#orgdb78f2d)
+  - [Developing using SLIME](#org3448e07)
+- [Image variants](#org48b9bd1)
+  - [`%%IMAGE%%:<version>`](#org1e6b662)
+  - [`%%IMAGE%%:<version>-slim`](#orgb38ba83)
+  - [`%%IMAGE%%:<version>-windowsservercore`](#org7aa8eb3)
+- [License](#org4d93305)
 
 
 
-<a id="orgf45bba5"></a>
+<a id="orgf5d947f"></a>
 
 # Supported Tags
 
 
-<a id="orgf0fb1c8"></a>
+<a id="org11d888f"></a>
 
 ## Simple Tags
 
 INSERT-SIMPLE-TAGS
 
 
-<a id="org54d798e"></a>
+<a id="org61eddd3"></a>
 
 ## Shared Tags
 
 INSERT-SHARED-TAGS
 
 
-<a id="orga819315"></a>
+<a id="orgf896293"></a>
 
 # Quick Reference
 
@@ -45,7 +45,7 @@ INSERT-SHARED-TAGS
 -   **Supported architectures:** `linux/amd64`, `linux/arm/v7`, `windows/amd64`
 
 
-<a id="orga898026"></a>
+<a id="org05de8b2"></a>
 
 # What is CCL?
 
@@ -54,12 +54,12 @@ From [CCL's Home Page](https://ccl.clozure.com):
 > Clozure CL (often called CCL for short) is a free Common Lisp implementation with a long history. Some distinguishing features of the implementation include fast compilation speed, native threads, a precise, generational, compacting garbage collector, and a convenient foreign-function interface.
 
 
-<a id="orgabd4965"></a>
+<a id="orga017377"></a>
 
 # How to use this image
 
 
-<a id="orgc77f8f0"></a>
+<a id="org465d760"></a>
 
 ## Create a `Dockerfile` in your CCL project
 
@@ -78,7 +78,7 @@ $ docker run -it --rm --name my-running-app my-ccl-app
 ```
 
 
-<a id="orgf48098c"></a>
+<a id="orgdb78f2d"></a>
 
 ## Run a single Common Lisp script
 
@@ -89,7 +89,7 @@ $ docker run -it --rm --name my-running-script -v "$PWD":/usr/src/app -w /usr/sr
 ```
 
 
-<a id="org992c70c"></a>
+<a id="org3448e07"></a>
 
 ## Developing using SLIME
 
@@ -106,14 +106,14 @@ M-x slime-connect RET RET RET
 ```
 
 
-<a id="orgcdf6947"></a>
+<a id="org48b9bd1"></a>
 
 # Image variants
 
 This image comes in several variants, each designed for a specific use case.
 
 
-<a id="org022d38b"></a>
+<a id="org1e6b662"></a>
 
 ## `%%IMAGE%%:<version>`
 
@@ -129,15 +129,17 @@ These images contain the Quicklisp installer, located at `/usr/local/share/commo
 -   **`QUICKLISP_CLIENT_VERSION`:** The client version to use. Of the form yyyy-mm-dd. `latest` means to install the latest version (the default).
 -   **`QUICKLISP_ADD_TO_INIT_FILE`:** If set to `true`, `(ql:add-to-init-file)` is used to add code to the implementation's user init file to load Quicklisp on startup. Not set by default.
 
+Additionally, these images contain cl-launch to provide a uniform interface to running a Lisp implementation without caring exactly which implementation is being used (for instance to have uniform CI scripts).
 
-<a id="org2e039a8"></a>
+
+<a id="orgb38ba83"></a>
 
 ## `%%IMAGE%%:<version>-slim`
 
 This image does not contain the common packages contained in the default tag and only contains the minimal packages needed to run CCL. Unless you are working in an environment where only this image will be deployed and you have space constraints, we highly recommend using the default image of this repository.
 
 
-<a id="org2add4d8"></a>
+<a id="org7aa8eb3"></a>
 
 ## `%%IMAGE%%:<version>-windowsservercore`
 
@@ -149,7 +151,7 @@ For information about how to get Docker running on Windows, please see the relev
 -   [Windows 10 Quick Start](https://msdn.microsoft.com/en-us/virtualization/windowscontainers/quick_start/quick_start_windows_10)
 
 
-<a id="orge03b2ba"></a>
+<a id="org4d93305"></a>
 
 # License
 
