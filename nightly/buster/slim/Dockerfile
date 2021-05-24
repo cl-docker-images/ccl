@@ -5,7 +5,7 @@
 #
 FROM debian:buster
 
-ENV CCL_COMMIT 6c1a9458f7a5437b73ec227e989aa5b825f32fd3
+ENV CCL_COMMIT 596fdacb34b8e51f2518bde453b608048d710413
 
 WORKDIR /usr/local/src/
 
