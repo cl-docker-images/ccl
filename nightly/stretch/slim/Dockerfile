@@ -5,7 +5,7 @@
 #
 FROM debian:stretch
 
-ENV CCL_COMMIT 596fdacb34b8e51f2518bde453b608048d710413
+ENV CCL_COMMIT 2ae800e12e3686dd639da370eaa1a8380c85d774
 
 WORKDIR /usr/local/src/
 
