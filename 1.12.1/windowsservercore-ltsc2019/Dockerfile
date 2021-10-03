@@ -56,7 +56,7 @@ RUN $srcurl = ('https://github.com/Clozure/ccl/releases/download/v{0}/ccl-{0}-wi
     Write-Host ('Downloading {0}' -f $srcurl); \
     Invoke-WebRequest -Uri $srcurl -OutFile ccl.zip -UserAgent "NativeHost"; \
     Write-Host 'Done downloading'; \
-    $expectedsha256 = 'F1BA6CFF353F6E6E13828F41DC92A723C01766AE38DCFF774905C9E02D59ED04'; \
+    $expectedsha256 = '05C2BD142B5B573898ADB4839F6F44E726980596B9146BB256952C3728C0ED57'; \
     $actualsha256 = (Get-FileHash ccl.zip -Algorithm sha256).Hash; \
     Write-Host ('Verifying sha256 {0} (expected: {1})' -f $actualsha256, $expectedsha256); \
     if ($actualsha256 -ne $expectedsha256) { \
