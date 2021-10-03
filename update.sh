@@ -3,6 +3,10 @@ set -Eeuo pipefail
 
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
+declare -A refs=(
+    [1.12.2-rc]='master'
+)
+
 versions=( "$@" )
 
 generated_warning() {
@@ -17,10 +21,10 @@ EOH
 
 for version in "${versions[@]}"; do
 
-    if [ "$version" = "nightly" ]; then
-        cclGitSha="$(curl -fsSL https://api.github.com/repos/Clozure/ccl/commits/master | jq -r .sha)"
-        unset sbclSourceUrl
-        unset sbclSourceSha
+    if [[ $version == *rc ]]; then
+        cclGitSha="$(curl -fsSL https://api.github.com/repos/Clozure/ccl/commits/"${refs[$version]}" | jq -r .sha)"
+        unset cclSourceUrl
+        unset cclSourceSha
     else
         unset cclGitSha
         cclSourceUrl="https://github.com/Clozure/ccl/releases/download/v$version/ccl-$version-windowsx86.zip"
@@ -28,22 +32,22 @@ for version in "${versions[@]}"; do
     fi
 
     for v in \
+        bullseye/{,slim} \
         buster/{,slim} \
-        stretch/{,slim} \
-        windowsservercore-{ltsc2016,1809}/ \
+        windowsservercore-{ltsc2019,1809}/ \
     ; do
         os="${v%%/*}"
         variant="${v#*/}"
         dir="$version/$v"
 
-        if [ "$version" = "nightly" ] && [[ "$os" == "windowsservercore"* ]]; then
+        if [[ $version == *rc ]] && [[ "$os" == "windowsservercore"* ]]; then
             continue
         fi
 
         mkdir -p "$dir"
 
         case "$os" in
-            buster|stretch)
+            bullseye|buster|stretch)
                 template="apt"
                 if [ "$variant" = "slim" ]; then
                     from="debian:$os"
@@ -68,7 +72,7 @@ for version in "${versions[@]}"; do
             template="$template-$variant"
         fi
 
-        if [ "$version" = "nightly" ]; then
+        if [[ $version == *rc ]]; then
             template="$template-nightly"
         fi
 
@@ -76,7 +80,7 @@ for version in "${versions[@]}"; do
 
         { generated_warning; cat "$template"; } > "$dir/Dockerfile"
 
-        if [ "$version" = "nightly" ]; then
+        if [[ $version == *rc ]]; then
             sed -ri \
                 -e 's,^(FROM) .*,\1 '"$from"',' \
                 -e 's/^(ENV CCL_COMMIT) .*/\1 '"$cclGitSha"'/' \

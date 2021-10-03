@@ -3,9 +3,9 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM debian:stretch
+FROM debian:bullseye
 
-ENV CCL_VERSION 1.12
+ENV CCL_VERSION 1.12.1
 
 WORKDIR /usr/local/src/
 

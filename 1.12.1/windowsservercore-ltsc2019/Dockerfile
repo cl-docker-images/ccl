@@ -1,4 +1,9 @@
-FROM PLACEHOLDER
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 # Switch to powershell and make sure it exits on error
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]

@@ -5,7 +5,7 @@
 #
 FROM buildpack-deps:buster
 
-ENV CCL_VERSION 1.12
+ENV CCL_VERSION 1.12.1
 
 WORKDIR /usr/local/src/
 
@@ -38,7 +38,7 @@ RUN set -x \
     && curl -fsSL "https://beta.quicklisp.org/quicklisp.lisp.asc" > quicklisp.lisp.asc \
     && GNUPGHOME="$(mktemp -d)" \
     && export GNUPGHOME \
-    && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "${QUICKLISP_SIGNING_KEY}" \
+    && gpg --batch --keyserver keyserver.ubuntu.com --recv-keys "${QUICKLISP_SIGNING_KEY}" \
     && gpg --batch --verify "quicklisp.lisp.asc" "quicklisp.lisp" \
     && rm quicklisp.lisp.asc \
     && rm -rf "$GNUPGHOME"

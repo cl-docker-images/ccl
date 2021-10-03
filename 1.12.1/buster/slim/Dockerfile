@@ -3,9 +3,9 @@
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
-FROM buildpack-deps:stretch
+FROM debian:buster
 
-ENV CCL_VERSION 1.12
+ENV CCL_VERSION 1.12.1
 
 WORKDIR /usr/local/src/
 
@@ -18,6 +18,8 @@ RUN set -x \
     esac \
     && export PLATFORM \
     && export CCL_SCRIPT \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates build-essential m4 make \
     && curl -fsSL https://github.com/Clozure/ccl/archive/v${CCL_VERSION}.tar.gz > v${CCL_VERSION}.tar.gz \
     && curl -fsSL https://github.com/Clozure/ccl/releases/download/v${CCL_VERSION}/${PLATFORM}.tar.gz > ${PLATFORM}.tar.gz \
     && gunzip ${PLATFORM}.tar.gz \
@@ -26,35 +28,11 @@ RUN set -x \
     && mv ccl-${CCL_VERSION} ccl \
     && ( cd ccl && tar xf ../${PLATFORM}.tar && cp scripts/$CCL_SCRIPT /usr/local/bin/ccl && ccl -b -e "(rebuild-ccl :full t)" ) \
     && rm -rf v${CCL_VERSION}.tar ${PLATFORM}.tar \
+    && apt-get remove -y curl ca-certificates build-essential m4 make \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/* \
     && ccl --version
 
-# Add the Quicklisp installer.
-WORKDIR /usr/local/share/common-lisp/source/quicklisp/
-
-ENV QUICKLISP_SIGNING_KEY D7A3489DDEFE32B7D0E7CC61307965AB028B5FF7
-
-RUN set -x \
-    && curl -fsSL "https://beta.quicklisp.org/quicklisp.lisp" > quicklisp.lisp \
-    && curl -fsSL "https://beta.quicklisp.org/quicklisp.lisp.asc" > quicklisp.lisp.asc \
-    && GNUPGHOME="$(mktemp -d)" \
-    && export GNUPGHOME \
-    && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "${QUICKLISP_SIGNING_KEY}" \
-    && gpg --batch --verify "quicklisp.lisp.asc" "quicklisp.lisp" \
-    && rm quicklisp.lisp.asc \
-    && rm -rf "$GNUPGHOME"
-
-# Add the script to trivially install Quicklisp
-COPY install-quicklisp /usr/local/bin/install-quicklisp
-
-# Install cl-launch. In the next release, move this up so that all images can
-# share it.
-# hadolint ignore=DL3008
-RUN set -x \
-    && apt-get update \
-    && apt-get install --no-install-recommends -y cl-launch \
-    && rm -rf /var/lib/apt/lists/*
-
-# Add the entrypoint
 WORKDIR /
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
