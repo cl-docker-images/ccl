@@ -2,7 +2,7 @@
   arches:
     amd64: "yes"
     arm64v8: "no"
-    arm32v7: "yes"
+    arm32v7: "no"
     winamd64: "yes"
   build_namespace: "daewok"
   canonical_namespace: "clfoundation"

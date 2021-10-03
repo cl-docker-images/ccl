@@ -127,7 +127,7 @@ for version in "${versions[@]}"; do
                 parentArches="${parentRepoToArches[$variantParent]:-}"
                 variantArches=
                 for arch in $parentArches; do
-                    if echo "$arch" | grep -E "amd64|arm32v7" > /dev/null; then
+                    if echo "$arch" | grep -E "amd64" > /dev/null; then
                         variantArches+=" $arch"
                     fi
                 done
