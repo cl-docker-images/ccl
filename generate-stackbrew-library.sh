@@ -5,7 +5,7 @@ declare -A aliases=(
     [1.12.1]='latest 1 1.12'
 )
 
-defaultDebianSuite='buster'
+defaultDebianSuite='bullseye'
 
 self="$(basename "$BASH_SOURCE")"
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
